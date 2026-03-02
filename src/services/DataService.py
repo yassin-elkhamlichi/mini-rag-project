@@ -1,6 +1,6 @@
 from fastapi import UploadFile, status, HTTPException
 from .BaseService import BaseService
-from src.models import ResponseMessage
+from models import ResponseMessage
 from .ProjectService import ProjectService
 import re
 
@@ -27,18 +27,23 @@ class DataService(BaseService):
         
         return True , "success"
 
-    def generate_unique_filename(self, orig_file: str, project_id: str):
+    def generate_unique_filepath(self, orig_file: str, project_id: str):
 
-        random_filename = self.generate_random_string()
-        project_path = ProjectService().get_project_path(project_id=project_id)
-        cleaned_name_file = self.clean_filename(orig_file=orig_file)
+       project_path = ProjectService().get_project_path(project_id=project_id)
+       cleaned_name_file = self.clean_filename(orig_file=orig_file)
 
-        final_filename = f"{random_filename}_{cleaned_name_file}"
+       while True:
+       
+            random_string = self.generate_random_string()
+            final_filename = f"{random_string}_{cleaned_name_file}"
+            new_file_path = project_path / final_filename
 
-        new_file_path = project_path / final_filename
-
-        return new_file_path
-
+        
+            if not new_file_path.exists():
+                break
+            
+        
+       return new_file_path, final_filename
 
     def clean_filename(self, orig_file: str):
         
