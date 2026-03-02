@@ -1,8 +1,8 @@
 from fastapi import UploadFile, status, HTTPException
-from .BaseController import BaseController
+from .BaseService import BaseService
 from pathlib import Path
 
-class ProjectController(BaseController):
+class ProjectService(BaseService):
     
     def __init__(self):
         super().__init__()
@@ -23,5 +23,4 @@ class ProjectController(BaseController):
       project_dir.mkdir(parents=True, exist_ok=True)
 
       return project_dir
-    
     

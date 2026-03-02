@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter, Depends, UploadFile
 from fastapi.responses import JSONResponse
 from helpers import getSetting, Settings
-from controllers import DataController, ProjectController
+from services import DataService
 import aiofiles
 import logging
 
@@ -14,10 +14,10 @@ data_router = APIRouter(
 @data_router.post("/upload/{project_id}")
 async def upload(project_id: str, file: UploadFile, app_Settings: Settings = Depends(getSetting) ):
 
-    is_valid, result_signal = DataController().validate_upload_file(file=file)
+    is_valid, result_signal = DataService().validate_upload_file(file=file)
 
    
-    file_path = DataController().generate_unique_filename(orig_file=file.filename, project_id= project_id)
+    file_path = DataService().generate_unique_filename(orig_file=file.filename, project_id= project_id)
 
     try:
         async with aiofiles.open(file_path, "wb") as f:
@@ -26,7 +26,7 @@ async def upload(project_id: str, file: UploadFile, app_Settings: Settings = Dep
     except Exception as e:
 
         logger.error(f"error while uploading file: {e}")
-        
+
         return JSONResponse(
             status_code = 400,
             content={

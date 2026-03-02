@@ -3,7 +3,7 @@ from pathlib import Path
 import random
 import string
 
-class BaseController:
+class BaseService:
 
    def  __init__(self):
       self.app_settings = getSetting()
