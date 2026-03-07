@@ -31,6 +31,7 @@ class BaseService:
       self.root_dir = Path(__file__).resolve().parent.parent
       self.file_dir = Path(self.root_dir / "assets" / "files")
       self.file_dir.mkdir(parents=True, exist_ok=True)
+      self.mongodb_uri = f"mongodb://{self.app_settings.DB_USERNAME}:{self.app_settings.DB_PASSWORD}@{self.app_settings.DB_HOST}:{self.app_settings.DB_PORT}/{self.app_settings.DB_NAME}"
    
    def generate_random_string(self, length = 12):
       return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))

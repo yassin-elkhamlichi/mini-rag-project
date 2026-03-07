@@ -28,7 +28,7 @@ class Settings(BaseSettings):
 
 
     model_config = SettingsConfigDict(
-        secrets_dir="/run/secrets",
+        secrets_dir="../run/secrets",
         env_file="../.env"
         )
 
