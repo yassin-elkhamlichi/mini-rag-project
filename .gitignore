@@ -216,3 +216,5 @@ __marimo__/
 .streamlit/secrets.toml
 
 src/assets/files/
+.mongodb/
+secrets/
